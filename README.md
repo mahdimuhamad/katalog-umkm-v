@@ -79,5 +79,5 @@ Urutan yang disarankan: US-01, US-02, US-03, US-04, US-05, US-06, lalu fitur bon
 - **Nama usaha:** Toko Contoh
 - **Pembuat:** Tim Katalog UMKM
 - **Link aplikasi:** https://katalog-umkm-v.vercel.app
-- **Fitur bonus yang dikerjakan:** US-07 (List produk di halaman admin dari database)
+- **Fitur bonus yang dikerjakan:** US-07 (List produk admin), US-08 (Tambah produk), US-09 (Ubah produk), US-10 (Hapus produk), US-11 (Filter kategori & pencarian), US-12 (Pilih jumlah produk), US-13 (PWA), US-14 (Deskripsi produk dibuat AI)
 

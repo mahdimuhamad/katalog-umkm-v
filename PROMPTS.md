@@ -82,11 +82,90 @@ File `proxy.js` dibuat di root untuk memproteksi semua sub-rute `/admin`. Penggu
 **Perbaikan:**
 Mengecualikan rute `/admin/login` agar tidak terjadi perulangan pengalihan (redirect loop).
 
-## Debugging dan fitur bonus
+## US-07 List produk di halaman admin
 
-**Error: Invalid path specified in request URL**
-- Masalah: Nilai `SUPABASE_URL` di `.env.local` memiliki spasi, tanda kutip, dan tambahan endpoint `/rest/v1/` di bagian akhir.
-- Solusi: Menghapus spasi, tanda kutip, dan path `/rest/v1/` sehingga formatnya menjadi URL murni `https://<id>.supabase.co`. Serta menambahkan sanitasi otomatis pada `lib/supabase/server.js`.
+**Prompt:** **[SENDIRI]**
+Ubah app/admin/page.jsx agar menampilkan daftar produk langsung dari database Supabase dan memformat harga serta gambar produk secara rapi.
 
-**Fitur Bonus US-07: Daftar Produk Admin dari Database**
-- `app/admin/page.jsx` langsung membaca data produk dari tabel `produk` di Supabase dan menampilkannya di tabel admin.
+**Hasil:**
+Halaman admin membaca tabel `produk` langsung dari database Supabase secara dinamis di sisi server.
+
+**Perbaikan:**
+Ditambahkan penanganan jika data produk kosong pada `TabelProduk`.
+
+## US-08 Tambah produk
+
+**Prompt:** **[SENDIRI]**
+Buat Server Action tambahProduk di app/admin/actions.js yang memeriksa sesi admin login, lalu menyimpan nama, harga, kategori, deskripsi, dan foto_url ke tabel produk Supabase. Sambungkan form di app/admin/produk/baru/page.jsx.
+
+**Hasil:**
+Admin dapat menambahkan produk baru dari form `/admin/produk/baru`, dan produk otomatis tersimpan ke Supabase lalu dialihkan kembali ke `/admin`.
+
+**Perbaikan:**
+Memastikan revalidasi cache `revalidatePath` agar katalog dan daftar admin langsung memperbarui daftar produk.
+
+## US-09 Ubah produk
+
+**Prompt:** **[SENDIRI]**
+Buat form ubah produk di app/admin/produk/[id]/ubah/page.jsx yang mengambil data produk lama dari Supabase, dan Server Action ubahProduk untuk menyimpan perubahan kembali ke database dengan proteksi login.
+
+**Hasil:**
+Data lama produk terisi otomatis di form ubah produk dan pembaruan data berhasil disimpan ke Supabase.
+
+**Perbaikan:**
+Binding ID produk ke Server Action untuk pembaruan data yang akurat.
+
+## US-10 Hapus produk
+
+**Prompt:** **[SENDIRI]**
+Tambahkan tombol hapus produk dengan konfirmasi dialog browser di components/TabelProduk.jsx dan Server Action hapusProduk di app/admin/actions.js yang terlindungi login.
+
+**Hasil:**
+Admin dapat menghapus produk dari database setelah menyetujui konfirmasi dialog browser.
+
+**Perbaikan:**
+Menambahkan konfirmasi `confirm()` pada form sebelum submit.
+
+## US-11 Filter kategori atau pencarian
+
+**Prompt:** **[SENDIRI]**
+Tambahkan fitur pencarian produk berdasarkan nama dan filter kategori di app/page.jsx secara responsif.
+
+**Hasil:**
+Pengunjung dapat mencari nama produk melalui input pencarian dan memfilter produk berdasarkan kategori pilihan.
+
+**Perbaikan:**
+Menampilkan opsi tombol kategori dinamis berdasarkan data produk yang tersedia di database.
+
+## US-12 Pilih jumlah atau varian
+
+**Prompt:** **[SENDIRI]**
+Tambahkan pengatur jumlah produk (counter + / -) pada components/TombolWhatsApp.jsx sehingga total harga dan jumlah produk otomatis terhitung dan tertulis di pesan WhatsApp.
+
+**Hasil:**
+Pengunjung dapat memilih jumlah pesanan dan tautan WhatsApp memuat format pesan lengkap seperti `Halo, saya mau pesan 2x Kopi Bubuk Robusta (Total: Rp 90.000)`.
+
+**Perbaikan:**
+Validasi jumlah minimal 1 pesanan.
+
+## US-13 PWA
+
+**Prompt:** **[SENDIRI]**
+Buat manifest.json di folder public dan konfigurasikan metadata PWA di app/layout.jsx agar aplikasi dapat diinstal di HP layaknya aplikasi native.
+
+**Hasil:**
+Aplikasi kini mendukung PWA dengan manifest web app dan icon yang dapat diinstall di layar HP.
+
+**Perbaikan:**
+Menambahkan meta tag theme-color dan appleWebApp di header.
+
+## US-14 Deskripsi produk dibuat AI
+
+**Prompt:** **[SENDIRI]**
+Integrasikan AI (Gemini API) untuk membuat deskripsi produk secara otomatis dari nama dan kategori produk pada form produk admin di components/FormProduk.jsx.
+
+**Hasil:**
+Admin cukup mengklik tombol "✨ Buat deskripsi dengan AI", dan AI akan mengisi kotak deskripsi produk dengan narasi yang menarik secara otomatis.
+
+**Perbaikan:**
+Menyediakan fallback generator deskripsi yang cerdas jika GEMINI_API_KEY belum dikonfigurasi di environment variable.
